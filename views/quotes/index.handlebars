@@ -1,0 +1,13 @@
+<h1>Angel Quotes</h1>
+
+{{#each quotes}}
+
+<div>
+    <p>Brilliance: {{ this.quotes }}</p>
+
+</div>
+<a href="/quotes/{{this._id}}">Show</a>
+<a href="/quotes/{{this._id}}?_method=DELETE">Delete</a>
+<hr />
+
+{{/each}}

@@ -27,13 +27,52 @@ async function create(req, res) {
   res.json(newQuote);
 }
 
-// async function destroy(req, res) {
-//   let { id } = req.params;
-//   findByIdAndDelete(id);
-// }
+async function destroy(req, res) {
+  //deletes the resource
+  let { id } = req.params;
+  await QuoteModel.findByIdAndRemove(id);
+  res.redirect("/");
+}
+
+async function update(req, res) {
+  //updates the resource
+  let { quote } = req.body;
+  let { id } = req.params;
+
+  await QuoteModel.findByIdAndUpdate(id, { quote });
+  res.redirect(`/quote/${id}`);
+}
+
+async function edit(req, res) {
+  //shows the form to edit the resource
+  let { id } = req.params;
+  let quote = await QuoteModel.findById(id);
+  res.render("quote/edit", { quote });
+}
+
+async function random(req, res) {
+  let { id } = req.params;
+  let quote = await QuoteModel.find();
+  console.log(quote);
+  quote.count().exec(function(err, count) {
+    // Get a random entry
+    var random = Math.floor(Math.random() * count);
+
+    quote
+      .findOne()
+      .skip(random)
+      .exec(function(err, result) {
+        res.json(quote);
+      });
+  });
+}
 
 module.exports = {
   index,
   show,
-  create
+  create,
+  destroy,
+  update,
+  edit,
+  random
 };

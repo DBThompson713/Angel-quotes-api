@@ -8,4 +8,14 @@ router.post("/", QuotesController.create);
 
 router.get("/:id", QuotesController.show);
 
+router.delete("/:id", QuotesController.destroy);
+
+router.patch("/:id", QuotesController.update);
+
+router.put("/:id", QuotesController.update);
+
+router.get("/:id/edit", QuotesController.edit);
+
+router.get("/random", QuotesController.random);
+
 module.exports = router;
