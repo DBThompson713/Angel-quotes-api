@@ -4,10 +4,9 @@ async function index(req, res) {
   const quoteNumber = await QuoteModel.find().countDocuments();
   const random = Math.floor(Math.random() * quoteNumber);
   const quotes = await QuoteModel.find();
+  console.log(quoteNumber);
   try {
-    res
-      .status(302)
-      .send(" The Book of Angel says: " + JSON.stringify(quotes[random].quote));
+    res.json(quotes);
   } catch (err) {
     res.status(500).send(`Error: ${err}`);
   }
@@ -53,20 +52,16 @@ async function edit(req, res) {
 }
 
 async function random(req, res) {
-  let { id } = req.params;
-  let quote = await QuoteModel.find();
-  console.log(quote);
-  quote.count().exec(function(err, count) {
-    // Get a random entry
-    var random = Math.floor(Math.random() * count);
-
-    quote
-      .findOne()
-      .skip(random)
-      .exec(function(err, result) {
-        res.json(quote);
-      });
-  });
+  const quoteNumber = await QuoteModel.find().countDocuments();
+  const random = Math.floor(Math.random() * quoteNumber);
+  const quotes = await QuoteModel.find();
+  try {
+    res
+      .status(302)
+      .send(" The Book of Angel says: " + JSON.stringify(quotes[random].quote));
+  } catch (err) {
+    res.status(500).send(`Error: ${err}`);
+  }
 }
 
 module.exports = {
