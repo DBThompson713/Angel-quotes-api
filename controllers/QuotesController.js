@@ -4,7 +4,6 @@ async function index(req, res) {
   const quoteNumber = await QuoteModel.find().countDocuments();
   const random = Math.floor(Math.random() * quoteNumber);
   const quotes = await QuoteModel.find();
-  console.log(random);
   try {
     res
       .status(302)
