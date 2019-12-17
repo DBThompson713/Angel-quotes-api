@@ -1,9 +1,14 @@
 const QuoteModel = require("../database/models/QuoteModel");
 
 async function index(req, res) {
+  const quoteNumber = await QuoteModel.find().countDocuments();
+  const random = Math.floor(Math.random() * quoteNumber);
   const quotes = await QuoteModel.find();
+  console.log(random);
   try {
-    res.json(quotes);
+    res
+      .status(302)
+      .send(" The Book of Angel says: " + JSON.stringify(quotes[random].quote));
   } catch (err) {
     res.status(500).send(`Error: ${err}`);
   }
@@ -28,14 +33,12 @@ async function create(req, res) {
 }
 
 async function destroy(req, res) {
-  //deletes the resource
   let { id } = req.params;
   await QuoteModel.findByIdAndRemove(id);
   res.redirect("/");
 }
 
 async function update(req, res) {
-  //updates the resource
   let { quote } = req.body;
   let { id } = req.params;
 
